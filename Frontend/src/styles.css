@@ -1,0 +1,31 @@
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+  cursor: pointer;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.text-danger {
+  color: orangered;
+}
+
+.flex-wrapper {
+  align-items: center;
+  justify-content: center;
+}
+
+.user-form {
+  max-width: 500px;
+  max-height: 650px;
+}

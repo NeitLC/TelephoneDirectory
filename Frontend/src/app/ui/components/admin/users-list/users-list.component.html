@@ -1,0 +1,54 @@
+<div class="p-card m-5">
+  <p-table [value]="users" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
+           [rowsPerPageOptions]="[5, 10, 15, 25, 50]" responsiveLayout="scroll" styleClass="p-datatable-striped"
+           scrollDirection="both" scrollHeight="calc(100vh - 400px)">
+
+    <ng-template pTemplate="caption">
+      <span class="text-3xl">Users</span>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">User Id<p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon></th>
+        <th pSortableColumn="userName">Username<p-sortIcon field="userName"></p-sortIcon></th>
+        <th pSortableColumn="phoneNumber">PhoneNumber<p-sortIcon field="phoneNumber"></p-sortIcon></th>
+        <th pSortableColumn="role">Role<p-sortIcon field="role"></p-sortIcon></th>
+        <th style="width: 3rem;"></th>
+      </tr>
+      <tr>
+        <th><p-columnFilter type="text" field="id"></p-columnFilter></th>
+        <th><p-columnFilter type="text" field="email"></p-columnFilter></th>
+        <th><p-columnFilter type="text" field="userName"></p-columnFilter></th>
+        <th><p-columnFilter type="text" field="phoneNumber"></p-columnFilter></th>
+        <th>
+          <p-columnFilter field="role" matchMode="equals" [showMenu]="false" [showClearButton]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown [ngModel]="value" [options]="userRoles" (onChange)="filter($event.value)"
+                          placeholder="Select role" [showClear]="true"></p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th>
+          <button pButton type="button" class="p-button-success" icon="pi pi-plus"
+                  pTooltip="Register user" [routerLink]="['/admin/users/register']"></button>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{user.id}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.userName}}</td>
+        <td>{{user.phoneNumber}}</td>
+        <td>{{user.role}}</td>
+        <td *ngIf="user.role !== adminRole">
+          <button pButton type="button" class="p-button-danger" icon="pi pi-trash"
+                  pTooltip="Delete user" (click)="deleteUser(user.id)"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,106 @@
+<div class="grid">
+  <div class="col-12">
+    <button pButton type="button" icon="pi pi-arrow-left" label="Go back" pTooltip="Conversion jobs"
+            class="p-button-link" [routerLink]="['/admin']">
+    </button>
+  </div>
+</div>
+
+<div class="flex flex-wrapper">
+  <div class="p-card mb-auto m-5 p-5 user-form">
+    <h2>Register new user</h2>
+    <form [formGroup]="registerFormGroup">
+      <div class="grid p-fluid">
+
+        <div class="col-12">
+          <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input formControlName="email" pInputText type="text" id="email" />
+              <label for="email">Email</label>
+            </span>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="submitted && !fieldIsSet('email')">
+          <span class="text-danger">Email is not set!</span>
+        </div>
+        <div class="col-12" *ngIf="submitted && !emailCorrect()">
+          <span class="text-danger">Email is not correct!</span>
+        </div>
+
+        <div class="col-12 mt-3">
+          <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input formControlName="userName" pInputText type="text" id="userName" />
+              <label for="userName">Username</label>
+            </span>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="submitted && !fieldIsSet('userName')">
+          <span class="text-danger">Username is not set!</span>
+        </div>
+
+        <div class="col-12 mt-3">
+          <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input formControlName="password" pInputText type="password" id="password"/>
+              <label for="password">Password</label>
+            </span>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="submitted && !fieldIsSet('password')">
+          <span class="text-danger">Password is not set!</span>
+        </div>
+        <div class="col-12" *ngIf="submitted && !fieldLengthCorrect('password')">
+          <span class="text-danger">Min length of password is 6!</span>
+        </div>
+
+        <div class="col-12 mt-3">
+          <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input formControlName="confirmPassword" pInputText type="password" id="confirmPassword" />
+              <label for="confirmPassword">Confirm Password</label>
+            </span>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="submitted && !fieldIsSet('confirmPassword')">
+          <span class="text-danger">Password is not confirmed!</span>
+        </div>
+        <div class="col-12" *ngIf="submitted && !fieldLengthCorrect('confirmPassword')">
+          <span class="text-danger">Min length of password is 6!</span>
+        </div>
+        <div class="col-12" *ngIf="submitted && !passwordsMatch()">
+          <span class="text-danger">Passwords does not match!</span>
+        </div>
+
+        <div class="col-12 mt-3">
+          <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input formControlName="phoneNumber" pInputText type="text" id="phoneNumber" />
+              <label for="phoneNumber">Phone number</label>
+            </span>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="submitted && !fieldIsSet('phoneNumber')">
+          <span class="text-danger">Phone number is not set!</span>
+        </div>
+
+        <div class="col-12 mt-3">
+          <span class="p-float-label">
+              <p-dropdown formControlName="userRole" id="userRole" [options]="userRoles"></p-dropdown>
+              <label for="userRole">Select user role</label>
+            </span>
+        </div>
+
+        <div class="col-12">
+          <p-button type="submit" label="Register" class="p-button-info" (onClick)="register()"></p-button>
+        </div>
+
+      </div>
+    </form>
+    <div class="grid p-fluid">
+      <div class="col-12">
+        <span class="text-danger">{{errorMessage}}</span>
+      </div>
+    </div>
+  </div>
+</div>

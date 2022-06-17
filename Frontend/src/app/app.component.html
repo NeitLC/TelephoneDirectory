@@ -1,0 +1,16 @@
+<div class="header p-card mb-5">
+  <div class="title">
+    <h1 class="lg:text-5xl">Telephone Directory</h1>
+  </div>
+  <div class="navigation">
+    <nav class="text-xl mb-5">
+      <span *ngIf="authService.loggedIn()">
+        <a (click)="authService.logout()">Logout</a>
+      </span>
+      <span *ngIf="!authService.loggedIn()">
+        <a [routerLink]="['/login']">Login</a>
+      </span>
+    </nav>
+  </div>
+</div>
+<router-outlet></router-outlet>

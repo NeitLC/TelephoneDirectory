@@ -1,0 +1,37 @@
+<div class="flex flex-wrapper">
+  <div class="p-card p-5 user-form">
+    <h2>Login</h2>
+    <form [formGroup]="loginFormGroup">
+      <div class="grid p-fluid">
+        <div class="col-12">
+          <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input formControlName="userName" pInputText type="text" id="username"/>
+              <label for="username">UserName</label>
+            </span>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="submitted && !fieldIsSet('userName')">
+          <span class="text-danger">Username is not set!</span>
+        </div>
+        <div class="col-12 mt-3">
+          <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input formControlName="password" pInputText type="password" id="password"/>
+              <label for="password">Password</label>
+            </span>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="submitted && !fieldIsSet('password')">
+          <span class="text-danger">Password is not set!</span>
+        </div>
+        <div class="col-12">
+          <p-button type="submit" label="Login" class="p-button-info" (onClick)="submitLogin()"></p-button>
+        </div>
+        <div class="col-12">
+          <span class="text-danger">{{errorMessage}}</span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
