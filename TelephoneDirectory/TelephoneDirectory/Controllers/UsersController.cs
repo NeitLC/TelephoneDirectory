@@ -80,5 +80,4 @@ public class UsersController : ControllerBase
     //     var successResponse = new Response {Status = "Success", Message = "User deleted successfully!"};
     //     return Ok(successResponse);
     // }
-
 }
