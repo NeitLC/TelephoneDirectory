@@ -11,18 +11,13 @@ namespace TelephoneDirectory.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
-    private RoleManager<IdentityRole> _roleManager;
-    
-    public UsersController(
-        UserManager<User> userManager,
-        RoleManager<IdentityRole> roleManager)
+
+    public UsersController(UserManager<User> userManager)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
     }
 
     [HttpGet]
-    // [Authorize(Roles = "admin")]
     public IActionResult GetUsers()
     {
         var users = _userManager.Users;
@@ -64,5 +59,26 @@ public class UsersController : ControllerBase
         var successResponse = new Response {Status = "Success", Message = "User deleted successfully!"};
         return Ok(successResponse);
     }
+    
+    // [HttpDelete]
+    // [Authorize(Roles = "admin")]
+    // [Route("{id}")]
+    // public async Task<IActionResult> EditUser(string id, EditUserViewModel editUserViewModel)
+    // {
+    //     var userToDelete = await _userManager.FindByIdAsync(id);
+    //     if (userToDelete == null)
+    //     {
+    //         return BadRequest("Invalid user id");
+    //     }
+    //
+    //     var result = await _userManager.DeleteAsync(userToDelete);
+    //     if (!result.Succeeded)
+    //     {
+    //         return BadRequest("Failed to delete user");
+    //     }
+    //     
+    //     var successResponse = new Response {Status = "Success", Message = "User deleted successfully!"};
+    //     return Ok(successResponse);
+    // }
 
 }

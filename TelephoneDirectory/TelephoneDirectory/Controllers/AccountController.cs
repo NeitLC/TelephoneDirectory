@@ -97,8 +97,9 @@ public class AccountController : ControllerBase
             UserName = registerModel.UserName,
             PhoneNumber = registerModel.PhoneNumber
         };
+        
+        var result = await CreateUser(user, registerModel.UserRole!, registerModel .Password!);
 
-        var result = await _userManager.CreateAsync(user, registerModel.Password);
         if (!result.Succeeded)
         {
             var registerFailedResponse = new Response
@@ -108,11 +109,47 @@ public class AccountController : ControllerBase
             };
             return StatusCode(StatusCodes.Status500InternalServerError, registerFailedResponse);
         }
-
+        
         await AddToRole(user, registerModel.UserRole!);
 
         var successResponse = new Response {Status = "Success", Message = "User created successfully!"};
         return Ok(successResponse);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "admin")]
+    [Route("change-password/{id}")]
+    public async Task<IActionResult> ChangePassword(string id, [FromBody] ChangePasswordModel changePasswordModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        var result =
+            await _userManager.ChangePasswordAsync(user, changePasswordModel.Password, changePasswordModel.NewPassword);
+        
+        if (!result.Succeeded)
+        {
+            var registerFailedResponse = new Response
+            {
+                Status = "Error", 
+                Message = "Password changed failed! Please check change details and try again."
+            };
+            return StatusCode(StatusCodes.Status500InternalServerError, registerFailedResponse);
+        }
+        
+        return Ok(new Response
+        {
+            Status = "Success",
+            Message = "User password was changed successfully!"
+        });
     }
 
     [HttpPost]
@@ -186,7 +223,7 @@ public class AccountController : ControllerBase
 
         return NoContent();
     }
-
+    
     [HttpGet]
     [Route("{userName}/in-role/{role}")]
     public async Task<IActionResult> IsInRole(string userName, string role)
@@ -201,8 +238,17 @@ public class AccountController : ControllerBase
         var isInRole = userRoles.Contains(role);
         return Ok(isInRole);
     }
-    
+
     #region Helpers
+    private async Task<IdentityResult> CreateUser(User user, string userRole, string password)
+    {
+        const string defaultPassword = "Fyyjnfwbz4286@$";
+        var result = userRole.Equals("admin")
+            ? await _userManager.CreateAsync(user, defaultPassword)
+            : await _userManager.CreateAsync(user);
+        return result;
+    }
+    
     private async Task AddToRole(User user, string userRole)
     {
         if (!await _roleManager.RoleExistsAsync(userRole))

@@ -7,7 +7,6 @@ import { UiModule } from './ui/ui.module';
 import {AppConfigService} from "./core/configuration/app-config.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AdminGuard} from "./core/guards/admin.guard";
-import {UserGuard} from "./core/guards/user.guard";
 import {TokenInterceptorService} from "./core/services/token-interceptor.service";
 
 @NgModule({
@@ -20,7 +19,7 @@ import {TokenInterceptorService} from "./core/services/token-interceptor.service
     UiModule,
     HttpClientModule
   ],
-  providers: [AdminGuard, UserGuard,
+  providers: [AdminGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

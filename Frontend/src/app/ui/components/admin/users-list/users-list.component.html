@@ -14,7 +14,7 @@
         <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon></th>
         <th pSortableColumn="userName">Username<p-sortIcon field="userName"></p-sortIcon></th>
         <th pSortableColumn="phoneNumber">PhoneNumber<p-sortIcon field="phoneNumber"></p-sortIcon></th>
-        <th pSortableColumn="role">Role<p-sortIcon field="role"></p-sortIcon></th>
+        <th *ngIf="authService.loggedIn()" pSortableColumn="role">Role<p-sortIcon field="role"></p-sortIcon></th>
         <th style="width: 3rem;"></th>
       </tr>
       <tr>
@@ -22,7 +22,7 @@
         <th><p-columnFilter type="text" field="email"></p-columnFilter></th>
         <th><p-columnFilter type="text" field="userName"></p-columnFilter></th>
         <th><p-columnFilter type="text" field="phoneNumber"></p-columnFilter></th>
-        <th>
+        <th *ngIf="authService.loggedIn()">
           <p-columnFilter field="role" matchMode="equals" [showMenu]="false" [showClearButton]="false">
             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
               <p-dropdown [ngModel]="value" [options]="userRoles" (onChange)="filter($event.value)"
@@ -31,7 +31,7 @@
           </p-columnFilter>
         </th>
         <th>
-          <button pButton type="button" class="p-button-success" icon="pi pi-plus"
+          <button *ngIf="authService.loggedIn()" pButton type="button" class="p-button-success" icon="pi pi-plus"
                   pTooltip="Register user" [routerLink]="['/admin/users/register']"></button>
         </th>
       </tr>
@@ -43,9 +43,9 @@
         <td>{{user.email}}</td>
         <td>{{user.userName}}</td>
         <td>{{user.phoneNumber}}</td>
-        <td>{{user.role}}</td>
-        <td *ngIf="user.role !== adminRole">
-          <button pButton type="button" class="p-button-danger" icon="pi pi-trash"
+        <td *ngIf="authService.loggedIn()">{{user.role}}</td>
+        <td>
+          <button *ngIf="authService.loggedIn() && user.role !== adminRole" pButton type="button" class="p-button-danger" icon="pi pi-trash"
                   pTooltip="Delete user" (click)="deleteUser(user.id)"></button>
         </td>
       </tr>

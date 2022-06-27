@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AccountService} from "../../../../core/services/account.service";
 import {User} from "../../../../core/models/user";
 import {UserRoles} from "../../../../core/models/user-roles";
+import {AuthService} from "../../../../core/services/auth.service";
 
 @Component({
   selector: 'app-user-list',
@@ -19,7 +20,7 @@ export class UsersListComponent implements OnInit {
 
   public users: User[] = [];
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.refreshUsers();
